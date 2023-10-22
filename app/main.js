@@ -5,8 +5,9 @@ console.log("Logs from your program will appear here!");
 
 const server = net.createServer((socket) => {
   socket.on("data", (data) => {
-    if (data.at(4) + data.at(5) === "79") {
-      // summation of ascii values of / : [slash space]
+    data = data.toString("utf-8").split(" ");
+    console.log("1: " + data[1]);
+    if (data[1] == "/") {
       socket.write("HTTP/1.1 200 OK\r\n\r\n");
       socket.end();
     } else {
