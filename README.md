@@ -22,7 +22,7 @@ and uncomment the relevant code, and push your changes to pass the first stage:
 ```sh
 git add .
 git commit -m "pass 1st stage" # any msg
-git push origin master
+git push origin main
 ```
 
 Time to move on to the next stage!
