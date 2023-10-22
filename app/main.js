@@ -7,17 +7,23 @@ const server = net.createServer((socket) => {
   socket.on("data", (data) => {
     // console.log("1: " + data);
     data = data.toString("utf-8").split(" ");
-    if (data[1] == "/") {
-      socket.write("HTTP/1.1 200 OK\r\n");
+    resp = "";
+    if (data[1] === "/") {
+      resp += "HTTP/1.1 200 OK\r\n\r\n";
     } else if (data[1].startsWith("/echo/")) {
-      socket.write("HTTP/1.1 200 OK\r\n");
-      socket.write("Content-Type: text/plain\r\n");
-      socket.write("Content-Length: 3\r\n");
-      socket.write("\r\n");
-      socket.write(data[1].split("/")[2]);
+      temp = data[1].split("/");
+      leftOverPath =
+        temp.length > 2 ? temp.slice(2, temp.length).join("/") : "";
+      resp +=
+        "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " +
+        String(leftOverPath.length) +
+        "\r\n\r\n";
+      resp += leftOverPath + "\r\n";
     } else {
-      socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
+      resp += "HTTP/1.1 404 Not Found\r\n\r\n";
     }
+    console.log(resp);
+    socket.write(resp);
     socket.end();
   });
 
